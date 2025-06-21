@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@plugin "daisyui";
+ @plugin "daisyui" {
+   themes: light --default, dark --prefersdark, synthwave, halloween;
+ }
+
+ /* App.css atau index.css */
+/* App.css atau index.css */
+body {
+  font-family: 'Poppins', sans-serif;
+}

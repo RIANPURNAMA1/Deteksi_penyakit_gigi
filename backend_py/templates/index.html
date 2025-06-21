@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deteksi Penyakit Gigi</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 40px;
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .preview, .result img {
+      max-width: 100%;
+      margin-top: 20px;
+    }
+    .result ul {
+      list-style-type: disc;
+      margin-top: 10px;
+    }
+    .button-group {
+      margin-top: 10px;
+    }
+    button {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Deteksi Penyakit Gigi</h2>
+    <form id="upload-form" enctype="multipart/form-data">
+      <input type="file" name="image" id="image-input" accept="image/*" required><br><br>
+      <div class="button-group">
+        <button type="submit">Deteksi Sekarang</button>
+        <button type="button" id="reset-btn">Reset</button>
+      </div>
+    </form>
+
+    <div id="preview-container" style="display:none;">
+      <h3>Preview Gambar:</h3>
+      <img id="preview-image" class="preview" alt="Preview Gambar">
+    </div>
+
+    <div class="result" id="result" style="display:none;">
+      <h3>Hasil Deteksi:</h3>
+      <ul id="detail-list"></ul>
+      <img id="result-image" alt="Hasil Deteksi">
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('upload-form');
+    const imageInput = document.getElementById('image-input');
+    const previewImage = document.getElementById('preview-image');
+    const previewContainer = document.getElementById('preview-container');
+    const resultDiv = document.getElementById('result');
+    const detailList = document.getElementById('detail-list');
+    const resultImage = document.getElementById('result-image');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preview gambar saat dipilih
+    imageInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewImage.src = e.target.result;
+          previewContainer.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        previewImage.src = '';
+        previewContainer.style.display = 'none';
+      }
+    });
+
+    // Submit form untuk deteksi
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const response = await fetch('/detect', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      detailList.innerHTML = '';
+      data.details.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        detailList.appendChild(li);
+      });
+
+      resultImage.src = data.result_image;
+      resultDiv.style.display = 'block';
+    });
+
+    // Tombol reset
+    resetBtn.addEventListener('click', function () {
+      form.reset();
+      previewImage.src = '';
+      resultImage.src = '';
+      detailList.innerHTML = '';
+      previewContainer.style.display = 'none';
+      resultDiv.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
