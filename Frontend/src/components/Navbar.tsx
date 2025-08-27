@@ -34,7 +34,7 @@ const Navbar = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       if (isLoggedIn) showInactivityModal();
-    }, 60000);
+    }, 600000);
   };
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center text-xl font-extrabold text-blue-700 gap-2">
           <FaTooth className="text-blue-500 text-2xl" />
-          <span className="text-black">GIGI</span>.ID
+          <span className="text-black">Smart dental disease</span>detection
         </Link>
 
         {/* Desktop Menu */}
@@ -109,29 +109,47 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="lg:hidden bg-white px-6 pb-4 shadow-md">
-          <div className="flex flex-col space-y-3 font-medium text-sm">
-            <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
-            <a href="#how-it-works" onClick={() => setIsMenuOpen(false)}>How It Works</a>
-            <a href="#diseases" onClick={() => setIsMenuOpen(false)}>Diseases</a>
-            <a href="#detection" onClick={() => setIsMenuOpen(false)}>Detection</a>
-            <a href="#pricing" onClick={() => setIsMenuOpen(false)}>Pricing</a>
-            <a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
-            <a href="#faq" onClick={() => setIsMenuOpen(false)}>FAQ</a>
-            {isLoggedIn ? (
-              <button onClick={() => { setIsMenuOpen(false); handleLogout(); }} className="bg-blue-500 hover:bg-red-600 text-white px-4 py-2 rounded-full">
-                <FaSignOutAlt className="inline mr-1" /> Logout
-              </button>
-            ) : (
-              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-center">
-                <FaSignInAlt className="inline mr-1" /> Login
-              </Link>
-            )}
-          </div>
+    {/* Mobile Menu */}
+{isMenuOpen && (
+  <div className="lg:hidden bg-white px-6 pb-4 shadow-md">
+    <div className="flex flex-col space-y-3 font-medium text-sm">
+      <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
+      <a href="#how-it-works" onClick={() => setIsMenuOpen(false)}>How It Works</a>
+      <a href="#diseases" onClick={() => setIsMenuOpen(false)}>Diseases</a>
+      <a href="#detection" onClick={() => setIsMenuOpen(false)}>Detection</a>
+      <a href="#pricing" onClick={() => setIsMenuOpen(false)}>Pricing</a>
+      <a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
+      <a href="#faq" onClick={() => setIsMenuOpen(false)}>FAQ</a>
+      
+      {isLoggedIn ? (
+        <button 
+          onClick={() => { setIsMenuOpen(false); handleLogout(); }} 
+          className="bg-blue-500 hover:bg-red-600 text-white px-4 py-2 rounded-full"
+        >
+          <FaSignOutAlt className="inline mr-1" /> Logout
+        </button>
+      ) : (
+        <div className="flex flex-col space-y-2">
+          <Link 
+            to="/login" 
+            onClick={() => setIsMenuOpen(false)} 
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-center"
+          >
+            <FaSignInAlt className="inline mr-1" /> Login
+          </Link>
+          <Link 
+            to="/register" 
+            onClick={() => setIsMenuOpen(false)} 
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full text-center"
+          >
+            <FaUserPlus className="inline mr-1" /> Register
+          </Link>
         </div>
       )}
+    </div>
+  </div>
+)}
+
     </header>
   );
 };

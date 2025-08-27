@@ -15,6 +15,11 @@ import Login from "./pages/Login";
 import GuestRoute from "./routes/GuestRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PaymentPage from "./pages/PaymenPage";
+import NotFound from "./pages/NotFound";
+import Admin from "./Admin/Page/Admin";
+import Konsultasi from "./pages/Konsultasi";
+import DataPasien from "./Admin/Page/Pasien";
+import Pemeriksaan from "./Admin/Page/HasilPemeriksaan";
 
 const AppContent = () => {
   const location = useLocation();
@@ -36,19 +41,12 @@ const AppContent = () => {
         <Route
           path="/deteksi"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={["user"]}>
               <Deteksi />
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/premium"
-          element={
-            <ProtectedRoute>
-              <DeteksiPremium />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/premium" element={<DeteksiPremium />} />
         <Route
           path="/register"
           element={
@@ -67,6 +65,19 @@ const AppContent = () => {
         />
         <Route path="/payment" element={<PaymentPage />} />
 
+        <Route path="/konsultasi" element={<Konsultasi />} />
+        <Route path="/pasien" element={<DataPasien />} />
+        <Route path="/pemeriksaan" element={<Pemeriksaan />} />
+
+        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={["admin", "dokter"]}>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );

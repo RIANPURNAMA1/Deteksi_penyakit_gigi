@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -41,10 +42,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'otp_expires_at'    => 'datetime',
     ];
+
+
 
     public function detections()
     {
         return $this->hasMany(Detection::class);
     }
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class);
+    }
+
+    public function archives()
+    {
+        return $this->hasMany(Archive::class);
+    }
+
 }

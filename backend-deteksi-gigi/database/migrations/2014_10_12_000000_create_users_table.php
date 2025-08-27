@@ -17,6 +17,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'dokter', 'user'])->default('user'); // ✅ role admin, dokter, user
+
+            // Tambahan untuk OTP
+            $table->string('otp_code')->nullable();
+          $table->timestamp('otp_expires_at')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });
